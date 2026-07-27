@@ -62,7 +62,7 @@ function LandingPage() {
       setLoading(true);
 
       await axios.post(
-        "http://localhost:5000/api/leads/public",
+        "",
         form
       );
 
