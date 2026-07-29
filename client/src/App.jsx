@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
@@ -16,7 +16,7 @@ function ProtectedRoute({ children }) {
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         {/* Public Website */}
         <Route path="/" element={<LandingPage />} />
@@ -40,7 +40,7 @@ function App() {
         {/* 404 */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
