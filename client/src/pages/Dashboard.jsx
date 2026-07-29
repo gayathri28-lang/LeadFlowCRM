@@ -49,7 +49,8 @@ function Dashboard() {
     try {
       const response = await getAllLeads();
 
-      setLeads(response.data);
+      // FIXED HERE
+      setLeads(response.data.data || []);
 
     } catch (error) {
       console.error(error);
@@ -75,35 +76,39 @@ function Dashboard() {
 
     try {
       const response = await searchLeads(value);
-      setLeads(response.data);
+
+      // FIXED HERE
+      setLeads(response.data.data || []);
+
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleDelete = async (id) => {
-  try {
-    await deleteLead(id);
+    try {
+      await deleteLead(id);
 
-    fetchLeads();
+      fetchLeads();
 
-    setSnackbar({
-      open: true,
-      message: "Lead deleted successfully!",
-      severity: "success",
-    });
+      setSnackbar({
+        open: true,
+        message: "Lead deleted successfully!",
+        severity: "success",
+      });
 
-  } catch (error) {
-    console.error(error);
+    } catch (error) {
+      console.error(error);
 
-    setSnackbar({
-      open: true,
-      message: "Failed to delete lead.",
-      severity: "error",
-    });
-  }
-};
-    return (
+      setSnackbar({
+        open: true,
+        message: "Failed to delete lead.",
+        severity: "error",
+      });
+    }
+  };
+
+  return (
     <>
       <Navbar />
 
@@ -223,79 +228,79 @@ function Dashboard() {
 
                 <TableBody>
                   {loading ? (
-  <TableRow>
-    <TableCell colSpan={8} align="center">
-      Loading...
-    </TableCell>
-  </TableRow>
-) : leads.length === 0 ? (
-  <TableRow>
-    <TableCell colSpan={8} align="center">
-      No leads found
-    </TableCell>
-  </TableRow>
-) : (
-  leads.map((lead) => (
-    <TableRow key={lead._id} hover>
+                    <TableRow>
+                      <TableCell colSpan={8} align="center">
+                        Loading...
+                      </TableCell>
+                    </TableRow>
+                  ) : leads.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={8} align="center">
+                        No leads found
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    leads.map((lead) => (
+                      <TableRow key={lead._id} hover>
 
-      <TableCell>
-        {lead.name}
-      </TableCell>
+                        <TableCell>
+                          {lead.name}
+                        </TableCell>
 
-      <TableCell>
-        {lead.company || "-"}
-      </TableCell>
+                        <TableCell>
+                          {lead.company || "-"}
+                        </TableCell>
 
-      <TableCell>
-        {lead.email}
-      </TableCell>
+                        <TableCell>
+                          {lead.email}
+                        </TableCell>
 
-      <TableCell>
-        {lead.phone || "-"}
-      </TableCell>
+                        <TableCell>
+                          {lead.phone || "-"}
+                        </TableCell>
 
-      <TableCell>
-        {lead.budgetRange || "-"}
-      </TableCell>
+                        <TableCell>
+                          {lead.budgetRange || "-"}
+                        </TableCell>
 
-      <TableCell
-        sx={{
-          maxWidth: 280,
-          whiteSpace: "normal",
-          wordBreak: "break-word",
-        }}
-      >
-        {lead.message || "-"}
-      </TableCell>
+                        <TableCell
+                          sx={{
+                            maxWidth: 280,
+                            whiteSpace: "normal",
+                            wordBreak: "break-word",
+                          }}
+                        >
+                          {lead.message || "-"}
+                        </TableCell>
 
-      <TableCell>
-        {lead.status}
-      </TableCell>
+                        <TableCell>
+                          {lead.status}
+                        </TableCell>
 
-      <TableCell>
-        <Button
-          variant="contained"
-          size="small"
-          sx={{ mr: 1, mb: 1 }}
-          onClick={() => setSelectedLead(lead)}
-        >
-          Edit
-        </Button>
+                        <TableCell>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            sx={{ mr: 1, mb: 1 }}
+                            onClick={() => setSelectedLead(lead)}
+                          >
+                            Edit
+                          </Button>
 
-        <Button
-          variant="contained"
-          color="error"
-          size="small"
-          onClick={() => handleDelete(lead._id)}
-        >
-          Delete
-        </Button>
+                          <Button
+                            variant="contained"
+                            color="error"
+                            size="small"
+                            onClick={() => handleDelete(lead._id)}
+                          >
+                            Delete
+                          </Button>
 
-      </TableCell>
+                        </TableCell>
 
-    </TableRow>
-  ))
-)}
+                      </TableRow>
+                    ))
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>
