@@ -22,7 +22,7 @@ router.post("/public", publicCreateLead);
 router.post("/", protect, createLead);
 
 // Get
-router.get("/", protect, getLeads);
+router.get("/", getLeads);
 router.get("/:id", protect, getLead);
 
 // Update
